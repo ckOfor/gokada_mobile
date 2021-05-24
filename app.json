@@ -1,0 +1,12 @@
+{
+  "name": "goKada",
+  "displayName": "goKada",
+  "expo": {
+    "name": "goKada",
+    "slug": "goKada",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
