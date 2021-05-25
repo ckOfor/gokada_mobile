@@ -24,8 +24,9 @@ export const fetchRandomDetailsFailure = () => ({
 	type: FETCH_RANDOM_DETAILS_FAILURE,
 })
 
-export const fetchRandomDetailsSuccess = () => ({
+export const fetchRandomDetailsSuccess = (payload: Array<any>) => ({
 	type: FETCH_RANDOM_DETAILS_SUCCESS,
+	payload
 })
 
 export const fetchRandomDetailsAsync = (): ThunkAction<void, ApplicationState, null, Action<any>> => async (
@@ -40,7 +41,7 @@ export const fetchRandomDetailsAsync = (): ThunkAction<void, ApplicationState, n
 		console.tron.log(result, "fetchRandomDetailsAsync")
 
 		if (kind === "ok") {
-			dispatch(fetchRandomDetailsSuccess(data))
+			dispatch(fetchRandomDetailsSuccess(result.data))
 		} else {
 			dispatch(notify(`${data.message}`, 'danger'))
 			dispatch(fetchRandomDetailsFailure())

@@ -3,7 +3,7 @@ import React from "react"
 
 // react-native
 import {
-	View
+	View, Text, ViewStyle
 } from "react-native";
 
 // third-party
@@ -28,18 +28,36 @@ interface DispatchProps {
 
 interface StateProps {
 	isLoading: boolean
+	data: Array<any>
 }
 
 interface LandingScreenProps extends NavigationScreenProps {}
 
 type Props = DispatchProps & StateProps & LandingScreenProps
 
+const CONTAINER: ViewStyle = {
+	backgroundColor: '#00000010',
+	height: '100%'
+}
+
+const ROOT: ViewStyle = {
+	marginTop: 50,
+	alignItems: 'center',
+}
+
+const BUTTON: ViewStyle = {
+	marginTop: 50
+}
 
 const Landing = (props: Props) => {
-	const { navigation, isLoading, fetchRandomDetailsAsync } = props
+	const { navigation, isLoading, fetchRandomDetailsAsync, data } = props
+
+	console.tron.log(data)
 
 	return (
-		<View>
+		<View
+			style={CONTAINER}
+		>
 			<Header
 				leftIcon="menuIcon"
 				titleTx={`moov.headerText`}
@@ -50,15 +68,33 @@ const Landing = (props: Props) => {
 			/>
 
 			<View
-				style={{
-					marginTop: 50
-				}}
+				style={ROOT}
 			>
+
+				{
+					data && data.length < 1 && (
+						<Text>List is empty</Text>
+					)
+				}
+
+				{
+					data && Object.keys(data).length > 0 && (
+						<View>
+							<Text>Todo Id: {`${data.id}`}</Text>
+							<Text>Todo title: {`${data.title}`}</Text>
+							<Text>Todo Status: {`${data.completed}`}</Text>
+						</View>
+					)
+				}
+
 				<Button
 					onPress={() => fetchRandomDetailsAsync()}
 					text="Click here to fetch data"
 					loading={isLoading}
+					style={BUTTON}
 				/>
+
+
 			</View>
 		</View>
 	)
@@ -71,7 +107,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): DispatchProps => ({
 
 let mapStateToProps: (state: ApplicationState) => StateProps;
 mapStateToProps = (state: ApplicationState): StateProps => ({
-	isLoading: state.auth.loading
+	isLoading: state.auth.loading,
+	data: state.auth.data
 });
 
 export const LandingScreen = connect<StateProps>(

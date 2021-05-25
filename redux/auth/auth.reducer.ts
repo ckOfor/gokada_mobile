@@ -1,17 +1,14 @@
 import {
 	AuthAction,
 	AuthState,
-	SET_FCM_TOKEN,
-	LOGOUT,
-    SIGN_IN_USER,
-    SIGN_IN_USER_FAILURE,
-    SIGN_IN_USER_SUCCESS,
+    FETCH_RANDOM_DETAILS,
+    FETCH_RANDOM_DETAILS_FAILURE,
+    FETCH_RANDOM_DETAILS_SUCCESS,
 } from "./auth.types"
 
 const initialState: AuthState = {
-	notificationId: "",
+	data: [],
     loading: false,
-	isLoggedIn: false,
 }
 
 export function authReducer(
@@ -20,27 +17,24 @@ export function authReducer(
 ): AuthState {
 	switch (action.type) {
 
-		case SET_FCM_TOKEN:
-			return {
-				...state,
-				notificationId: action.payload
-			}
-
-        case SIGN_IN_USER:
+        case FETCH_RANDOM_DETAILS:
 			return {
 				...state,
 				loading: true
 			}
 
-        case SIGN_IN_USER_FAILURE:
-		case SIGN_IN_USER_SUCCESS:
+        case FETCH_RANDOM_DETAILS_FAILURE:
             return {
 				...state,
 				loading: false
 			}
 
-		case LOGOUT:
-			return initialState
+		case FETCH_RANDOM_DETAILS_SUCCESS:
+            return {
+				...state,
+				loading: false,
+				data: action.payload
+			}
 
 		default:
 			return state
